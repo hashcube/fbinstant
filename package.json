@@ -1,0 +1,16 @@
+{
+  "name": "fbinstant",
+  "version": "1.0.0",
+  "devkit": {
+    "clientPaths": {
+      "fbinstant": "js"
+    },
+    "extensions": {
+      "build": "build"
+    }
+  },
+  "devDependencies": {
+    "mocha": "^2.0.1",
+    "jsio": "^2.0.0"
+  }
+}
