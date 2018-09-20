@@ -13,11 +13,7 @@ var FacebookInstant = Class(function () {
         .then(function (){
           cb(opts);
         })
-        .catch(function(e){
-        });
-      })
-      .catch(function(e){
-      });;
+      });
   };
 
   this.getUserInfo = function () {
