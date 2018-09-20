@@ -3,14 +3,21 @@ var FacebookInstant = Class(function () {
 
   this.FBInstant = window.FBInstant;
 
-  this.init = function () {
+  this.initialise = function (cb, opts) {
     var FBInstant = this.FBInstant;
 
     FBInstant.initializeAsync()
       .then(function () {
-      });
-    FBInstant.startGameAsync();
-    FBInstant.setLoadingProgress(100);
+        FBInstant.setLoadingProgress(100);
+        FBInstant.startGameAsync()
+        .then(function (){
+          cb(opts);
+        })
+        .catch(function(e){
+        });
+      })
+      .catch(function(e){
+      });;
   };
 
   this.getUserInfo = function () {
