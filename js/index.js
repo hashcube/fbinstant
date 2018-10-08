@@ -126,10 +126,10 @@ var FacebookInstant = Class(function () {
   this.getRewardedVideoAsync = this.FBInstant.getRewardedVideoAsync;
 
   // Returns a promise that resolves with whether the player can subscribe to the game bot or not.
-  this.canSubscribeBotAsync = this.FBInstant.canSubscribeBotAsync;
+  this.canSubscribeBotAsync = this.FBInstant.player.canSubscribeBotAsync;
 
   // Request that the player subscribe the bot associated to the game
-  this.subscribeBotAsync = this.FBInstant.subscribeBotAsync;
+  this.subscribeBotAsync = this.FBInstant.player.subscribeBotAsync;
 
   // Preload the ad.
   this.loadAsync = this.FBInstant.loadAsync;
