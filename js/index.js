@@ -13,7 +13,7 @@ var FacebookInstant = Class(function () {
         return FBInstant.setLoadingProgress(100);
       })
       .then(FBInstant.startGameAsync)
-      .then(bind(this, function (){
+      .then(bind(this, function () {
         this.setPaymentsReady();
         cb(opts);
       }));
