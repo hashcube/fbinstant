@@ -3,23 +3,20 @@ var FacebookInstant = Class(function () {
 
   this.FBInstant = window.FBInstant;
 
+  this.payments_ready = false;
+
   this.initialise = function (cb, opts) {
     var FBInstant = this.FBInstant;
 
     FBInstant.initializeAsync()
       .then(function () {
-        FBInstant.setLoadingProgress(100);
-        FBInstant.startGameAsync()
-        .then(function (){
-          this.FBInstant.payments.onReady(function (){
-            if (this.FBInstant.getSupportedAPIs()
-              .includes('payments.purchaseAsync')) {
-              opts.payments_ready = true;
-            }
-          });
-          cb(opts);
-        })
-      });
+        return FBInstant.setLoadingProgress(100);
+      })
+      .then(FBInstant.startGameAsync)
+      .then(bind(this, function (){
+        this.setPaymentsReady();
+        cb(opts);
+      }));
   };
 
   this.getUserInfo = function () {
@@ -35,6 +32,15 @@ var FacebookInstant = Class(function () {
         id: playerId,
         user_pic: playerPic
       };
+  };
+
+  this.setPaymentsReady = function () {
+    this.onReady(bind(this, function () {
+      if (this.FBInstant.getSupportedAPIs()
+        .includes('payments.purchaseAsync')) {
+        this.payments_ready = true;
+      }
+    }));
   };
 
   this.getSupportedAPIs = this.FBInstant.getSupportedAPIs;
