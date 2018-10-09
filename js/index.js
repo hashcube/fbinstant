@@ -14,7 +14,7 @@ var FacebookInstant = Class(function () {
           this.FBInstant.payments.onReady(function (){
             if (this.FBInstant.getSupportedAPIs()
               .includes('payments.purchaseAsync')) {
-              GC.app.payments_ready = true;
+              opts.payments_ready = true;
             }
           });
           cb(opts);
