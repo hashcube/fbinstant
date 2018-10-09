@@ -11,6 +11,13 @@ var FacebookInstant = Class(function () {
         FBInstant.setLoadingProgress(100);
         FBInstant.startGameAsync()
         .then(function (){
+          this.FBInstant.payments.onReady(function (){
+            if (this.FBInstant.getSupportedAPIs()
+              .includes('payments.purchaseAsync')) {
+              GC.app.payments_ready = true;
+              console.log("payments ready" + GC.app.payments_ready);
+            }
+          });
           cb(opts);
         })
       });
@@ -30,6 +37,16 @@ var FacebookInstant = Class(function () {
         user_pic: playerPic
       };
   };
+
+  this.getSupportedAPIs = this.FBInstant.getSupportedAPIs;
+
+  this.consumePurchaseAsync = this.FBInstant.payments.consumePurchaseAsync;
+
+  this.purchaseAsync = this.FBInstant.payments.purchaseAsync;
+
+  this.onReady = this.FBInstant.payments.onReady;
+
+  this.getCatalogAsync = this.FBInstant.payments.getCatalogAsync;
 
   // The player's localized display name.
   this.getName = this.FBInstant.player.getName;
@@ -126,10 +143,10 @@ var FacebookInstant = Class(function () {
   this.getRewardedVideoAsync = this.FBInstant.getRewardedVideoAsync;
 
   // Returns a promise that resolves with whether the player can subscribe to the game bot or not.
-  this.canSubscribeBotAsync = this.FBInstant.canSubscribeBotAsync;
+  this.canSubscribeBotAsync = this.FBInstant.player.canSubscribeBotAsync;
 
   // Request that the player subscribe the bot associated to the game
-  this.subscribeBotAsync = this.FBInstant.subscribeBotAsync;
+  this.subscribeBotAsync = this.FBInstant.player.subscribeBotAsync;
 
   // Preload the ad.
   this.loadAsync = this.FBInstant.loadAsync;
