@@ -3,17 +3,20 @@ var FacebookInstant = Class(function () {
 
   this.FBInstant = window.FBInstant;
 
+  this.payments_ready = false;
+
   this.initialise = function (cb, opts) {
     var FBInstant = this.FBInstant;
 
     FBInstant.initializeAsync()
       .then(function () {
-        FBInstant.setLoadingProgress(100);
-        FBInstant.startGameAsync()
-        .then(function (){
-          cb(opts);
-        })
-      });
+        return FBInstant.setLoadingProgress(100);
+      })
+      .then(FBInstant.startGameAsync)
+      .then(bind(this, function () {
+        this.setPaymentsReady();
+        cb(opts);
+      }));
   };
 
   this.getUserInfo = function () {
@@ -30,6 +33,25 @@ var FacebookInstant = Class(function () {
         user_pic: playerPic
       };
   };
+
+  this.setPaymentsReady = function () {
+    this.onReady(bind(this, function () {
+      if (this.FBInstant.getSupportedAPIs()
+        .includes('payments.purchaseAsync')) {
+        this.payments_ready = true;
+      }
+    }));
+  };
+
+  this.getSupportedAPIs = this.FBInstant.getSupportedAPIs;
+
+  this.consumePurchaseAsync = this.FBInstant.payments.consumePurchaseAsync;
+
+  this.purchaseAsync = this.FBInstant.payments.purchaseAsync;
+
+  this.onReady = this.FBInstant.payments.onReady;
+
+  this.getCatalogAsync = this.FBInstant.payments.getCatalogAsync;
 
   // The player's localized display name.
   this.getName = this.FBInstant.player.getName;
