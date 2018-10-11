@@ -13,19 +13,6 @@ Add devkit-facebook to your dependencies section of the manifest.
 Run
 ``` "devkit install https://github.com/hashcube/fbinstant.git" ```
 
-### Config
-
-There are a few keys you need to add to your _manifest.json_. This should cover
-both iOS and Android.
-
-```json
-"addons": {
-  "facebook": {
-    "facebookAppID": "your-app-id",
-    "facebookDisplayName": "your-app-display-name",
-  }
-}
-```
 
 ### Integration
 
@@ -33,7 +20,7 @@ Import the facebook sdk into your code. You will want to wait for the SDK to
 be ready before you do anything.
 
 ```javascript
-import fbinstant as fbinstant;;
+import fbinstant as fbinstant;
 
 fbinstant.initialise(callback, opts);
 ```
