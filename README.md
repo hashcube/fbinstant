@@ -33,17 +33,9 @@ Import the facebook sdk into your code. You will want to wait for the SDK to
 be ready before you do anything.
 
 ```javascript
-import facebook as FB;
+import fbinstant as fbinstant;;
 
-FB.onReady.run(function () {
-  FB.init({
-    appId: CONFIG.modules.facebook.facebookAppID,
-    displayName: CONFIG.modules.facebook.facebookDisplayName,
-    // other config
-  });
-
-  // Ready to use FB!
-});
+fbinstant.initialise(callback, opts);
 ```
 
 ### FBInstant.initialise
