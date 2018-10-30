@@ -1,3 +1,5 @@
+import util.underscore as _;
+
 var FacebookInstant = Class(function () {
   "use strict";
 
@@ -8,6 +10,7 @@ var FacebookInstant = Class(function () {
   this.initialise = function (cb, opts) {
     var FBInstant = this.FBInstant;
 
+    opts = opts || {};
     FBInstant.initializeAsync()
       .then(function () {
         return FBInstant.setLoadingProgress(100);
@@ -15,6 +18,7 @@ var FacebookInstant = Class(function () {
       .then(FBInstant.startGameAsync)
       .then(bind(this, function () {
         this.setPaymentsReady();
+        opts.entry_data = this.getEntryPointData();
         cb(opts);
       }));
   };
@@ -166,6 +170,112 @@ var FacebookInstant = Class(function () {
   this.getSDKVersion = this.FBInstant.getSDKVersion;
 
   this.quit = this.FBInstant.quit;
+
+  this.requestLife = function (opts) {
+    var fbInstant = this.FBInstant,
+      player = fbInstant.player;
+
+    fbInstant.context.chooseAsync()
+      .then(bind(this, function () {
+        this.sendMessage({
+          data: {
+            id: Date.now() + '_' + player.getID(),
+            type: 'life',
+            player_id: player.getID(),
+            name: player.getName(),
+            action: opts.action
+          },
+          text: opts.message,
+          image: opts.image
+        })
+      }))
+      .catch(function (ex) {
+        console.log(ex);
+      });
+  };
+
+  this.selectPlayer = function (cb) {
+    var fbInstant = this.FBInstant;
+
+    fbInstant.context.chooseAsync()
+      .then(function () {
+        fbInstant.context.getPlayersAsync()
+        .then(function(players) {
+          players.map(function(player) {
+            if (player.getID() !== curr_player_id) {
+              cb(player);
+            }
+          });
+        });
+      });
+  };
+
+  this.invite = function (opts) {
+    var fbInstant = this.FBInstant,
+      player = fbInstant.player;
+
+    this.selectPlayer(bind(this, function () {
+      this.sendMessage({
+        data: {
+          id: Date.now() + '_' + player.getID(),
+          type: 'invite',
+          player_id: player.getID(),
+          name: player.getName()
+        },
+        text: opts.message
+      })
+    }));
+  };
+
+  this.sendMessage = function (opts) {
+    this.FBInstant.updateAsync({
+      action: 'CUSTOM',
+      data: opts.data,
+      text: opts.text,
+      strategy: 'IMMEDIATE',
+      notification: 'NO_PUSH',
+      template: 'play_turn',
+      image: opts.image
+    })
+    .catch(function (ex) {
+      console.log(ex);
+    });
+  };
+
+  this.acceptRequest = function (params) {
+    var fbInstant = this.FBInstant,
+      player = fbInstant.player,
+      sendMessage = bind(this, this.sendMessage),
+      player_id = params.player_id,
+      data = {
+        id: Date.now() + '_' + player.getID(),
+        type: 'life',
+        player_id: player.getID(),
+        name: player.getName(),
+        action: 'send'
+      },
+      opts = {
+        data:  data,
+        text: params.message,
+        image: params.image
+      };
+
+    fbInstant.context.createAsync(player_id)
+      .then(function () {
+        sendMessage(opts);
+      })
+      .catch(function (ex) {
+        if (ex.code === 'SAME_CONTEXT') {
+          sendMessage(opts);
+        }
+      });
+  };
+
+  this.getEntryPointData = function () {
+    var data = this.FBInstant.getEntryPointData();
+
+    return data;
+  };
 });
 
 exports = new FacebookInstant();
