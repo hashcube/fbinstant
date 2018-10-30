@@ -45,6 +45,8 @@ var FacebookInstant = Class(function () {
 
   this.getConnectedPlayersAsync = this.FBInstant.player.getConnectedPlayersAsync;
 
+  this.getEntryPointData = this.FBInstant.getEntryPointData;
+
   this.updateAsync = this.FBInstant.updateAsync;
 
   this.createAsync = this.FBInstant.context.createAsync;
