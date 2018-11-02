@@ -203,7 +203,8 @@ var FacebookInstant = Class(function () {
   };
 
   this.selectPlayer = function (cb) {
-    var fbInstant = this.FBInstant;
+    var fbInstant = this.FBInstant,
+      curr_player_id = fbInstant.player.getID();
 
     fbInstant.context.chooseAsync()
       .then(function () {
@@ -230,7 +231,8 @@ var FacebookInstant = Class(function () {
           player_id: player.getID(),
           name: player.getName()
         },
-        text: opts.message
+        text: opts.message,
+        image: opts.image
       })
     }));
   };
