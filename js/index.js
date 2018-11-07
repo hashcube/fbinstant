@@ -252,7 +252,7 @@ var FacebookInstant = Class(function () {
     });
   };
 
-  this.acceptRequest = function (params) {
+  this.sendLife = function (params) {
     var fbInstant = this.FBInstant,
       player = fbInstant.player,
       sendMessage = bind(this, this.sendMessage),
