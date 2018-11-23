@@ -202,39 +202,24 @@ var FacebookInstant = Class(function () {
       });
   };
 
-  this.selectPlayer = function (cb) {
-    var fbInstant = this.FBInstant,
-      curr_player_id = fbInstant.player.getID();
-
-    fbInstant.context.chooseAsync()
-      .then(function () {
-        fbInstant.context.getPlayersAsync()
-        .then(function(players) {
-          players.map(function(player) {
-            if (player.getID() !== curr_player_id) {
-              cb(player);
-            }
-          });
-        });
-      });
-  };
-
   this.invite = function (opts) {
     var fbInstant = this.FBInstant,
       player = fbInstant.player;
 
-    this.selectPlayer(bind(this, function () {
-      this.sendMessage({
-        data: {
-          id: Date.now() + '_' + player.getID(),
-          type: 'invite',
-          player_id: player.getID(),
-          name: player.getName()
-        },
-        text: opts.message,
-        image: opts.image
-      })
-    }));
+    fbInstant.context.chooseAsync()
+      .then(bind(this, function () {
+        this.sendMessage({
+          data: {
+            id: Date.now() + '_' + player.getID(),
+            type: 'invite',
+            player_id: player.getID(),
+            name: player.getName(),
+            action: opts.action
+          },
+          text: opts.message,
+          image: opts.image
+        })
+      }))
   };
 
   this.sendMessage = function (opts) {
