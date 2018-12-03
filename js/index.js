@@ -137,9 +137,6 @@ var FacebookInstant = Class(function () {
   // Returns whether or not the user is eligible to have shortcut creation requested.
   this.canCreateShortcutAsync = this.FBInstant.canCreateShortcutAsync;
 
-  // Prompts the user to create a shortcut to the game if they are eligible
-  this.createShortcutAsync = this.FBInstant.createShortcutAsync;
-
   // Log an app event with FB Analytics.
   this.logEvent = this.FBInstant.logEvent;
 
@@ -270,6 +267,23 @@ var FacebookInstant = Class(function () {
     var data = this.FBInstant.getEntryPointData();
 
     return data;
+  };
+
+  // Prompts the user to create a shortcut to the game if they are eligible
+  this.createShortcutAsync = function (cb) {
+    this.FBInstant.createShortcutAsync()
+      .then(function (create_accepted) {
+        if (create_accepted) {
+          cb('success');
+        }
+      })
+      .catch(function (error) {
+        if (error.code === 'USER_INPUT') {
+          cb('cancelled');
+        } else {
+          cb ('failed');
+        }
+      });
   };
 });
 
