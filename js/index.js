@@ -191,7 +191,8 @@ var FacebookInstant = Class(function () {
             action: opts.action
           },
           text: opts.message,
-          image: opts.image
+          image: opts.image,
+          template: 'ask-life'
         })
       }))
       .catch(function (ex) {
@@ -214,7 +215,8 @@ var FacebookInstant = Class(function () {
             action: opts.action
           },
           text: opts.message,
-          image: opts.image
+          image: opts.image,
+          template: 'invite'
         })
       }))
   };
@@ -226,7 +228,7 @@ var FacebookInstant = Class(function () {
       text: opts.text,
       strategy: 'IMMEDIATE',
       notification: 'NO_PUSH',
-      template: 'play_turn',
+      template: opts.template || 'play_turn',
       image: opts.image
     })
     .catch(function (ex) {
@@ -249,7 +251,8 @@ var FacebookInstant = Class(function () {
       opts = {
         data:  data,
         text: params.message,
-        image: params.image
+        image: params.image,
+        template: 'send-life'
       };
 
     fbInstant.context.createAsync(player_id)
