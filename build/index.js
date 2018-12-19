@@ -6,10 +6,10 @@ exports.onBeforeBuild = function (api, app, config, cb) {
         <script> \
           if (window.FBInstant) { \
             window.FBInstant.initializeAsync() \
-            .then(function () { \
-              return FBInstant.setLoadingProgress(100); \
-            }) \
-            .then(FBInstant.startGameAsync) \
+              .then(function () { \
+                return FBInstant.setLoadingProgress(100); \
+              }) \
+              .then(FBInstant.startGameAsync) \
           } \
         </script>'
       );
