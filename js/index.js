@@ -22,11 +22,14 @@ var FacebookInstant = Class(function () {
       };
   };
 
-  this.setPaymentsReady = function () {
+  this.setPaymentsReady = function (reg_cb) {
     this.onReady(bind(this, function () {
       if (this.FBInstant.getSupportedAPIs()
         .includes('payments.purchaseAsync')) {
         this.payments_ready = true;
+        if (reg_cb) {
+          reg_cb.fn(reg_cb.products, reg_cb.next);
+        }
       }
     }));
   };
