@@ -27,6 +27,9 @@ var FacebookInstant = Class(function () {
       if (this.FBInstant.getSupportedAPIs()
         .includes('payments.purchaseAsync')) {
         this.payments_ready = true;
+
+        // TODO
+        // make callback registering generic.
         if (reg_cb) {
           reg_cb.fn(reg_cb.products, reg_cb.next);
         }
