@@ -7,22 +7,6 @@ var FacebookInstant = Class(function () {
 
   this.payments_ready = false;
 
-  this.initialise = function (cb, opts) {
-    var FBInstant = this.FBInstant;
-
-    opts = opts || {};
-    FBInstant.initializeAsync()
-      .then(function () {
-        return FBInstant.setLoadingProgress(100);
-      })
-      .then(FBInstant.startGameAsync)
-      .then(bind(this, function () {
-        this.setPaymentsReady();
-        opts.entry_data = this.getEntryPointData();
-        cb(opts);
-      }));
-  };
-
   this.getUserInfo = function () {
     "use strict";
 
@@ -38,11 +22,17 @@ var FacebookInstant = Class(function () {
       };
   };
 
-  this.setPaymentsReady = function () {
+  this.setPaymentsReady = function (reg_cb) {
     this.onReady(bind(this, function () {
       if (this.FBInstant.getSupportedAPIs()
         .includes('payments.purchaseAsync')) {
         this.payments_ready = true;
+
+        // TODO
+        // make callback registering generic.
+        if (reg_cb) {
+          reg_cb.fn(reg_cb.products, reg_cb.next);
+        }
       }
     }));
   };
