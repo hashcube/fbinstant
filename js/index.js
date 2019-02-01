@@ -207,7 +207,9 @@ var FacebookInstant = Class(function () {
           text: opts.message,
           image: opts.image,
           template: 'invite'
-        })
+        });
+
+        fbInstant.logEvent('invite_sent');
       }))
   };
 
