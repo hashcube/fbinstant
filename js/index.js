@@ -63,32 +63,32 @@ var FacebookInstant = Class(function () {
   this.getPhoto = this.FBInstant.player.getPhoto;
 
   // Retrieve stats from the designated cloud storage of the current player.
-  // Parameters 
-  // obj : 
+  // Parameters
+  // obj :
   //  An array containing a set of keys
   this.getDataAsync = this.FBInstant.player.getDataAsync;
 
   // Set data to be saved to the designated cloud storage of the current player.
-  // Parameters 
+  // Parameters
   // obj :
   //  An object containing a set of key-value pairs
   this.setDataAsync = this.FBInstant.player.setDataAsync;
 
   // Retrieve stats from the designated cloud storage of the current player.
-  // Parameters 
-  // obj : 
+  // Parameters
+  // obj :
   //  An array containing a set of keys
   this.getStatsAsync = this.FBInstant.player.getStatsAsync;
 
   // Set stats to be saved to the designated cloud storage of the current player.
-  // Parameters 
-  // obj : 
+  // Parameters
+  // obj :
   //  An object containing a set of key-value pairs
   //  value must be INTEGER TYPE!!
   this.setStatsAsync = this.FBInstant.player.setStatsAsync;
 
-  // Parameters 
-  // obj : 
+  // Parameters
+  // obj :
   //  An object containing a set of key-value pairs
   //  indicating how much to increment each stat in storage
   // returns new stats
@@ -114,7 +114,7 @@ var FacebookInstant = Class(function () {
   //  intent ("INVITE" | "REQUEST" | "CHALLENGE" | "SHARE") Indicates the intent of the share.
   //  image string A base64 encoded image to be shared.
   //  text string A text message to be shared.
-  //  data (Object) A blob of data to attach to the share. 
+  //  data (Object) A blob of data to attach to the share.
   //  All game sessions launched from the share will be able to access this blob through FBInstant.getEntryPointData().
   this.shareAsync = this.FBInstant.shareAsync
 
@@ -206,7 +206,7 @@ var FacebookInstant = Class(function () {
           },
           text: opts.message,
           image: opts.image,
-          template: 'invite'
+          template: opts.template || 'invite'
         });
 
         fbInstant.logEvent('invite_sent');
