@@ -199,7 +199,7 @@ var FacebookInstant = Class(function () {
         this.sendMessage({
           data: {
             id: Date.now() + '_' + player.getID(),
-            type: opts.template,
+            type: 'invite',
             player_id: player.getID(),
             name: player.getName(),
             action: opts.action
