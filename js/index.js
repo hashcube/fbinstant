@@ -195,21 +195,9 @@ var FacebookInstant = Class(function () {
       player = fbInstant.player;
 
     fbInstant.context.chooseAsync()
-      .then(bind(this, function () {
-        this.sendMessage({
-          data: {
-            id: Date.now() + '_' + player.getID(),
-            type: 'invite',
-            player_id: player.getID(),
-            name: player.getName(),
-            action: opts.action
-          },
-          text: opts.message,
-          image: opts.image,
-          template: 'invite'
-        })
+      .then(function () {
         opts.cb();
-      }))
+      })
   };
 
   this.sendMessage = function (opts) {
