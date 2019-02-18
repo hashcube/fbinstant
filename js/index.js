@@ -206,7 +206,8 @@ var FacebookInstant = Class(function () {
           },
           text: opts.message,
           image: opts.image,
-          template: 'invite'
+          template: 'invite',
+          cb: opts.cb
         })
       }))
   };
