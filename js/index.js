@@ -213,7 +213,7 @@ var FacebookInstant = Class(function () {
           },
           text: opts.message,
           image: opts.image,
-          template: 'invite'
+          template: opts.template || 'invite' 
         });
       })); 
   };
