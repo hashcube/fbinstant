@@ -190,15 +190,30 @@ var FacebookInstant = Class(function () {
       });
   };
 
-  this.invite = function (opts) {
+  this.invite = function (opts, val) {
     var fbInstant = this.FBInstant,
       player = fbInstant.player;
 
     fbInstant.context.chooseAsync()
-      .then(function () {
+      .then(bind(this, function () {
         opts.cb();
         fbInstant.logEvent('invite_sent');
-      });     
+        if(opts.no_message) {
+          return;
+        }
+        this.sendMessage({
+          data: {
+            id: Date.now() + '_' + player.getID(),
+            type: 'invite',
+            player_id: player.getID(),
+            name: player.getName(),
+            action: opts.action
+          },
+          text: opts.message,
+          image: opts.image,
+          template: 'invite'
+        });
+      })); 
   };
 
   this.sendMessage = function (opts) {
