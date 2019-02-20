@@ -196,6 +196,13 @@ var FacebookInstant = Class(function () {
 
     fbInstant.context.chooseAsync()
       .then(bind(this, function () {
+        if (opts.cb) {
+          opts.cb();  
+        }
+        fbInstant.logEvent('invite_sent');
+        if (opts.no_message) {
+          return;
+        }
         this.sendMessage({
           data: {
             id: Date.now() + '_' + player.getID(),
@@ -208,9 +215,7 @@ var FacebookInstant = Class(function () {
           image: opts.image,
           template: opts.template || 'invite'
         });
-
-        fbInstant.logEvent('invite_sent');
-      }))
+      })); 
   };
 
   this.sendMessage = function (opts) {
