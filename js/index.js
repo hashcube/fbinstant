@@ -196,9 +196,11 @@ var FacebookInstant = Class(function () {
 
     fbInstant.context.chooseAsync()
       .then(bind(this, function () {
-        opts.cb();
+        if (opts.cb) {
+          opts.cb();  
+        }
         fbInstant.logEvent('invite_sent');
-        if(opts.no_message) {
+        if (opts.no_message) {
           return;
         }
         this.sendMessage({
