@@ -190,7 +190,7 @@ var FacebookInstant = Class(function () {
       });
   };
 
-  this.invite = function (opts, val) {
+  this.invite = function (opts) {
     var fbInstant = this.FBInstant,
       player = fbInstant.player;
 
@@ -213,7 +213,7 @@ var FacebookInstant = Class(function () {
           },
           text: opts.message,
           image: opts.image,
-          template: opts.template || 'invite' 
+          template: opts.template || 'invite'
         });
       })); 
   };
