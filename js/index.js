@@ -192,9 +192,22 @@ var FacebookInstant = Class(function () {
 
   this.invite = function (opts) {
     var fbInstant = this.FBInstant,
-      player = fbInstant.player;
+      player = fbInstant.player,
+      send_data = {
+        data: {
+          id: Date.now() + '_' + player.getID(),
+          type: 'invite',
+          player_id: player.getID(),
+          name: player.getName(),
+          action: opts.action
+        },
+        text: opts.message,
+        image: opts.image,
+        template: opts.template || 'invite'
+      };
 
-    fbInstant.context.chooseAsync()
+    if (opts.type === 'choose') {
+      fbInstant.context.chooseAsync()
       .then(bind(this, function () {
         if (opts.cb) {
           opts.cb();  
@@ -203,19 +216,11 @@ var FacebookInstant = Class(function () {
         if (opts.no_message) {
           return;
         }
-        this.sendMessage({
-          data: {
-            id: Date.now() + '_' + player.getID(),
-            type: 'invite',
-            player_id: player.getID(),
-            name: player.getName(),
-            action: opts.action
-          },
-          text: opts.message,
-          image: opts.image,
-          template: opts.template || 'invite'
-        });
-      })); 
+        this.sendMessage(send_data);
+      }));
+    } else {
+      this.sendMessage(send_data);
+    }
   };
 
   this.sendMessage = function (opts) {
