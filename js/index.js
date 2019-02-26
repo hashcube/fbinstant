@@ -190,7 +190,7 @@ var FacebookInstant = Class(function () {
       });
   };
 
-  this.invite = function (opts) {
+  this.sendUpdate = function (opts) {
     var fbInstant = this.FBInstant,
       player = fbInstant.player,
       send_data = {
