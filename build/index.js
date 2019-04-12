@@ -7,6 +7,10 @@ exports.onBeforeBuild = function (api, app, config, cb) {
           if (window.FBInstant) { \
             window.FBInstant.initializeAsync() \
               .then(function () { \
+                window.FBInstant.initialized = true; \
+                setTimeout(function () { \
+                  GC.app.view.emit("fbinstant:initialized"); \
+                }, 1000); \
                 return FBInstant.setLoadingProgress(100); \
               }) \
               .then(FBInstant.startGameAsync) \
